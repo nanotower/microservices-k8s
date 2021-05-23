@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+    api-gateway:
+        container_name: api-gateway
+        build:
+          context: ./api-gateway
+          dockerfile: Dockerfile
+        hostname: api-gateway
+        image: udagram/api-gateway
+        ports:
+          - 8080:8080
+        networks:
+          - backend
+
+    api-feed:
+        container_name: udagram-api-feed
+        image: udagram-api-feed
+        build:
+          context: ./udagram-api-feed
+          dockerfile: Dockerfile
+        networks:
+          - backend
+        expose:
+          - '8001'
+        env_file:
+          - .env
+        environment:
+          - PORT=8001
+
+    api-user:
+        container_name: udagram-api-user
+        image: udagram-api-user
+        build:
+          context: ./udagram-api-user
+          dockerfile: Dockerfile
+        networks:
+          - backend
+        expose:
+          - '8002'
+        env_file:
+          - .env
+        environment:
+          - PORT=8002
+
+    frontend:
+        container_name: udagram-front
+        image: udagram-front
+        build:
+          context: ./udagram-frontend
+          dockerfile: Dockerfile
+        # ports:
+        #   - 80:80
+        expose:
+          - '80:80'
+        networks:
+          - backend
+
+networks:
+    backend:

@@ -1,0 +1,62 @@
+# FROM node:12-slim as base
+
+# WORKDIR /home/node/app
+
+# COPY package*.json ./
+
+# RUN npm i
+
+# RUN npm audit fix
+
+# COPY . .
+
+# FROM base as production
+
+# ENV NODE_PATH=./build
+
+# CMD [ "npm", "run", "build-prod"]
+
+
+
+# Use NodeJS base image
+FROM node:12
+
+# ARG POSTGRES_USERNAME
+# ARG POSTGRES_PASSWORD
+# ARG POSTGRES_HOST
+# ARG POSTGRES_DB
+# ARG AWS_BUCKET
+# ARG AWS_REGION
+# ARG AWS_PROFILE
+# ARG JWT_SECRET
+# ARG URL
+
+# ENV POSTGRES_USERNAME=${POSTGRES_USERNAME} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} POSTGRES_HOST=${POSTGRES_HOST} POSTGRES_DB=${POSTGRES_DB} AWS_BUCKET=${AWS_MEDIA_BUCKET} AWS_REGION=${AWS_REGION} AWS_PROFILE=${AWS_PROFILE} JWT_SECRET=${JWT_SECRET} URL=${URL}
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm i
+RUN npm audit fix
+
+COPY . .
+
+EXPOSE 8001
+
+CMD [ "npm", "run", "prod" ]
+
+
+
+# FROM node:12
+# # Create app directory
+# WORKDIR /usr/src/app
+# # Install app dependencies
+# # A wildcard is used to ensure both package.json AND package-lock.json are copied
+# # where available (npm@5+)
+# COPY package*.json ./
+# RUN npm ci 
+# # Bundle app source
+# COPY . .
+# EXPOSE 8080
+# CMD [ "npm", "run", "prod" ]
