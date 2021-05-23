@@ -1,0 +1,50 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
+jobs:
+  include:
+    -stage api
+        script:
+          - docker --version # print the version for logging
+          - docker build -t udagram-api-feed udagram-api-feed/
+          - docker build -t udagram-api-user udagram-api-user/
+          - docker tag -t udagram-api-feed nanotorre/udagram-api-feed:v1
+          - docker tag -t udagram-api-user nanotorre/udagram-api-user:v1
+
+        after_success:
+          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          - docker push nanotorre/udagram-api-feed:v1
+          - docker push nanotorre/udagram-api-user:v1
+
+
+    -stage proxy
+        script:
+          - docker --version # print the version for logging
+          - docker build -t udagram-proxy api-gateway/
+          - docker tag -t udagram-proxy nanotorre/udagram-proxy:v1
+
+        after_success:
+          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          - docker push nanotorre/udagram-proxy:v1
+
+    -stage front
+        script:
+          - docker --version # print the version for logging
+          - docker build -t udagram-front udagram-frontend/
+          - docker tag -t udagram-front nanotorre/udagram-front:v1
+
+        after_success:
+          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          - docker push nanotorre/udagram-front:v1
