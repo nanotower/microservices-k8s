@@ -2,6 +2,10 @@ screenshots
 node_modules
 set_env.sh
 .env
+aws-secret.yml
+env*
+commands-cheat*
+example*
 
 # Logs
 logs
