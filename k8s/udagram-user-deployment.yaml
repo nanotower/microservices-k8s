@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-feed
+  name: api-user
   labels:
-    app: api-feed
+    app: api-user
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-feed
+      app: api-user
   template:
     metadata:
       labels:
-        app: api-feed
+        app: api-user
     spec:
       containers:
-      - name: api-feed
-        image: nanotorre/udagram-api-feed:v1
+      - name: api-user
+        image: nanotorre/udagram-api-user:v1
         imagePullPolicy: "Always"
-        resources:
-         requests:
-           memory: "64Mi"
-           cpu: "250m"
-         limits:
-           memory: "1024Mi"
-           cpu: "500m" 
+        # resources:
+        #  requests:
+        #    memory: "64Mi"
+        #    cpu: "250m"
+        #  limits:
+        #    memory: "1024Mi"
+        #    cpu: "500m" 
         ports:
-          - containerPort: 8001    
+          - containerPort: 8002    
         env:
           - name: URL
             valueFrom:

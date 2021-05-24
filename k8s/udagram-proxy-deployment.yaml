@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: udagram-proxy
+  name: udagram-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-proxy
+  template:
+    metadata:
+      labels:
+        app: udagram-proxy
+    spec:
+      containers:
+      - image: nanotorre/udagram-proxy:v1
+        name: udagram-proxy
+        imagePullPolicy: Always          
+        # resources:
+        #   requests:
+        #     memory: "64Mi"
+        #     cpu: "250m"
+        #   limits:
+        #     memory: "1024Mi"
+        #     cpu: "500m"       
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always
