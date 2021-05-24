@@ -1,9 +1,8 @@
-screenshots
 node_modules
 set_env.sh
 .env
-aws-secret.yml
-env*
+aws-secret.yaml
+env-*
 commands-cheat*
 example*
 
