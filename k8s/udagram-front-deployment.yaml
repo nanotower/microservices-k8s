@@ -19,4 +19,4 @@ spec:
         image: nanotorre/udagram-front:v1
         imagePullPolicy: "Always"
         ports:
-          - containerPort: 8080
+          - containerPort: 80
